@@ -13,7 +13,8 @@ from sklearn.pipeline import Pipeline
 
 from pipes_transformers.baseline import BaselineV1Transformer, BaselineV2Transformer, BaselineV3Transformer, \
     BaselineV4Transformer
-from titanic.pipes_transformers.name_transformer import NameTransformerV1, NameSocialStatusTransformerV1
+from titanic.pipes_transformers.cabin_transformer import CabinFloorTransformerV1
+from titanic.pipes_transformers.name_transformer import NameSocialStatusTransformerV1
 
 
 def load_data(base_dir=Path(".")):
@@ -88,7 +89,8 @@ def print_feature_importance(pipe, plot=True):
 
 
 def run_full_experiment(pipe, feature_importance=False):
-    print("-" * 20)
+    print("\n")
+    print("-" * 60)
     print(f"run experiment {get_pipe_name(pipe)}:\n{get_pipe_docs(pipe)}")
 
     df_train, df_test, df_anno_example = load_data()
@@ -116,6 +118,14 @@ if __name__ == "__main__":
     run_full_experiment(
         Pipeline([
             ('name_v1', NameSocialStatusTransformerV1()),
-            ('baseline_v1', BaselineV4Transformer()),
+            ('baseline_v4', BaselineV4Transformer()),
             ('RF', RandomForestClassifier(random_state=42))
         ]))
+
+    run_full_experiment(
+        Pipeline([
+            ('name_v1', NameSocialStatusTransformerV1()),
+            ('Cabin_v1', CabinFloorTransformerV1()),
+            ('baseline_v4', BaselineV4Transformer()),
+            ('RF', RandomForestClassifier(random_state=42))
+        ]), feature_importance=True)
