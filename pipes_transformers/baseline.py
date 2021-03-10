@@ -4,7 +4,8 @@ from sklearn.impute import SimpleImputer
 
 
 class BaselineV1Transformer(BaseEstimator, TransformerMixin):
-    """ Most Naive model I came with"""
+    """ Most simple Transformer I came with"""
+
 
     def __init__(self):
         self.columns_name = None
